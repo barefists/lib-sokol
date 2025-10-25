@@ -1,15 +1,11 @@
 # lib-sokol dynamic libraries
 
-This project builds shared libraries for the [sokol](https://github.com/floooh/sokol) headers.
+This project builds a single shared library for the [sokol](https://github.com/floooh/sokol) headers.
 
-Targets:
-- sokol_gfx
-- sokol_app
-- sokol_audio
-- sokol_time
-- sokol_args
+Target:
+- sokol (combines sokol_gfx, sokol_app, sokol_audio, sokol_time, sokol_args)
 
-Each target outputs a platform-specific dynamic library: `.dll` on Windows, `.dylib` on macOS, `.so` on Linux.
+Outputs a platform-specific dynamic library: `.dll` on Windows, `.dylib` on macOS, `.so` on Linux.
 
 ## Configure
 
@@ -32,9 +28,9 @@ Artifacts will be in `build/Release/` (MSVC multi-config) or `build/` for single
   - macOS: Metal
   - Linux/Other: GL 3.3 Core
 - You can override backends by adding compile definitions on the CMake targets if needed.
-- `sokol_app` is built with `SOKOL_NO_ENTRY` and `SOKOL_NOAPI` to avoid a default entry point and graphics dependency.
+- Internally, `sokol_app` is built with `SOKOL_NO_ENTRY` and `SOKOL_NOAPI` to avoid a default entry point and graphics dependency.
 
 ## Consuming the DLLs
 
 - In your application, include the headers normally and define `SOKOL_DLL` (but do not define `SOKOL_IMPL`).
-- Link against the import libraries produced by this project (e.g., `sokol_gfx.lib` on Windows) and ship the corresponding DLLs alongside your executable.
+- Link against the single import library produced by this project (e.g., `sokol.lib` on Windows) and ship the corresponding `sokol` shared library (`sokol.dll/.dylib/.so`) alongside your executable.
